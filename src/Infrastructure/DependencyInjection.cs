@@ -1,4 +1,7 @@
+using Application.Common.Interfaces;
 using Infrastructure.Persistence;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +25,10 @@ public static class DependencyInjection
                     maxRetryDelay: TimeSpan.FromSeconds(5),
                     errorCodesToAdd: null);
             }));
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         return services;
     }

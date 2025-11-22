@@ -1,4 +1,4 @@
-using Application.Common.Interfaces;
+using Application.Interfaces;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -27,6 +27,7 @@ public static class DependencyInjection
             }));
 
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IContactRepository, ContactRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 

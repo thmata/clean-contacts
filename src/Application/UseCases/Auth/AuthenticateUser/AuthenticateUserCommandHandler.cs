@@ -1,7 +1,7 @@
-using Application.Common.Interfaces;
+using Application.Interfaces;
 using MediatR;
 
-namespace Application.Auth.Commands.AuthenticateUser;
+namespace Application.UseCases.Auth.AuthenticateUser;
 
 public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCommand, AuthenticateUserResponse>
 {

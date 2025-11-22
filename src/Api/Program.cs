@@ -1,4 +1,5 @@
 using Api.Configuration;
+using Api.Filters;
 using Application;
 using Infrastructure;
 
@@ -9,7 +10,10 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddAuthenticationConfiguration(builder.Configuration);
 builder.Services.AddCorsConfiguration(builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<GlobalExceptionFilter>();
+});
 builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();

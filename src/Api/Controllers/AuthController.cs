@@ -1,11 +1,11 @@
-using Application.Auth.Commands.AuthenticateUser;
+using Application.UseCases.Auth.AuthenticateUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -18,14 +18,7 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] AuthenticateUserCommand command, CancellationToken cancellationToken)
     {
-        try
-        {
-            var response = await _mediator.Send(command, cancellationToken);
-            return Ok(response);
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            return Unauthorized(new { message = ex.Message });
-        }
+        var response = await _mediator.Send(command, cancellationToken);
+        return Ok(response);
     }
 }

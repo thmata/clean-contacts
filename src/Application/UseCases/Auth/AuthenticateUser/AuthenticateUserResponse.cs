@@ -1,3 +1,3 @@
-namespace Application.Auth.Commands.AuthenticateUser;
+namespace Application.UseCases.Auth.AuthenticateUser;
 
 public record AuthenticateUserResponse(string Token);

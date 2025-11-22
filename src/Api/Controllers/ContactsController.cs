@@ -1,15 +1,15 @@
 using Api.Dtos;
-using Application.Contacts.Commands.CreateContact;
-using Application.Contacts.Commands.DeleteContact;
-using Application.Contacts.Commands.UpdateContact;
-using Application.Contacts.Queries.GetContactById;
-using Application.Contacts.Queries.GetContacts;
+using Application.UseCases.Contacts.CreateContact;
+using Application.UseCases.Contacts.DeleteContact;
+using Application.UseCases.Contacts.GetContacts;
+using Application.UseCases.Contacts.UpdateContact;
+using Application.UseCases.Contacts.GetContactById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/contacts")]
 public class ContactsController : BaseApiController
 {
     private readonly IMediator _mediator;

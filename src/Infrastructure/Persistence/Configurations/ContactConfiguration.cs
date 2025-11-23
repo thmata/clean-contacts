@@ -32,7 +32,7 @@ public class ContactConfiguration : IEntityTypeConfiguration<Contact>
 
         builder.Property(c => c.Phone)
             .HasColumnName("phone")
-            .HasMaxLength(20)
+            .HasMaxLength(11)
             .IsRequired();
 
         builder.Property(c => c.CreatedAt)
@@ -52,9 +52,5 @@ public class ContactConfiguration : IEntityTypeConfiguration<Contact>
 
         builder.HasIndex(c => c.Email)
             .HasDatabaseName("ix_contacts_email");
-
-        builder.HasIndex(c => new { c.UserId, c.Email })
-            .IsUnique()
-            .HasDatabaseName("ix_contacts_user_id_email");
     }
 }

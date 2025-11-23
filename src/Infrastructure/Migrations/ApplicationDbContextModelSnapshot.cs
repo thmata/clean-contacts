@@ -66,10 +66,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_contacts_user_id");
 
-                    b.HasIndex("UserId", "Email")
-                        .IsUnique()
-                        .HasDatabaseName("ix_contacts_user_id_email");
-
                     b.ToTable("contacts", (string)null);
 
                     b.HasData(

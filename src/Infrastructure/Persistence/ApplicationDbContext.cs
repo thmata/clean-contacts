@@ -43,7 +43,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "João Silva",
                 Email = "joao.silva@email.com",
-                Phone = "+5511999999999",
+                Phone = "11999999999",
                 CreatedAt = baseDate.AddHours(1),
                 UpdatedAt = (DateTime?)null
             },
@@ -53,7 +53,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Maria Oliveira",
                 Email = "maria.oliveira@email.com",
-                Phone = "+5511988888888",
+                Phone = "11988888888",
                 CreatedAt = baseDate.AddHours(2),
                 UpdatedAt = (DateTime?)null
             },
@@ -63,7 +63,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Carlos Souza",
                 Email = "carlos.souza@email.com",
-                Phone = "+5511977777777",
+                Phone = "11977777777",
                 CreatedAt = baseDate.AddHours(3),
                 UpdatedAt = (DateTime?)null
             },
@@ -73,7 +73,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Ana Santos",
                 Email = "ana.santos@email.com",
-                Phone = "+5511966666666",
+                Phone = "11966666666",
                 CreatedAt = baseDate.AddHours(4),
                 UpdatedAt = (DateTime?)null
             },
@@ -83,7 +83,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Pedro Costa",
                 Email = "pedro.costa@email.com",
-                Phone = "+5511955555555",
+                Phone = "11955555555",
                 CreatedAt = baseDate.AddHours(5),
                 UpdatedAt = (DateTime?)null
             },
@@ -93,7 +93,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Juliana Lima",
                 Email = "juliana.lima@email.com",
-                Phone = "+5511944444444",
+                Phone = "11944444444",
                 CreatedAt = baseDate.AddHours(6),
                 UpdatedAt = (DateTime?)null
             },
@@ -103,7 +103,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Roberto Alves",
                 Email = "roberto.alves@email.com",
-                Phone = "+5511933333333",
+                Phone = "11933333333",
                 CreatedAt = baseDate.AddHours(7),
                 UpdatedAt = (DateTime?)null
             },
@@ -113,7 +113,7 @@ public class ApplicationDbContext : DbContext
                 UserId = adminId,
                 Name = "Fernanda Rocha",
                 Email = "fernanda.rocha@email.com",
-                Phone = "+5511922222222",
+                Phone = "11922222222",
                 CreatedAt = baseDate.AddHours(8),
                 UpdatedAt = (DateTime?)null
             }

@@ -20,9 +20,12 @@ public class ContactsController : BaseApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetContacts(CancellationToken cancellationToken)
+    public async Task<IActionResult> GetContacts(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10,
+        CancellationToken cancellationToken = default)
     {
-        var query = new GetContactsQuery(UserId);
+        var query = new GetContactsQuery(UserId, page, pageSize);
         var response = await _mediator.Send(query, cancellationToken);
         return Ok(response);
     }

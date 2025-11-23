@@ -18,7 +18,9 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Telefone é obrigatório.")
-            .Must(BeValidPhone).WithMessage("Telefone deve ter entre 10 e 15 dígitos.");
+            .Must(BeValidPhone).WithMessage("Telefone deve ter entre 10 e 15 dígitos.")
+            .Matches(@"^\+?\d{10,15}$")
+            .WithMessage("Telefone inválido. Deve conter apenas números e opcionalmente o prefixo internacional (+).");
     }
 
     private static bool BeValidPhone(string phone)
@@ -26,7 +28,13 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
         if (string.IsNullOrWhiteSpace(phone))
             return false;
 
-        var digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
-        return digitsOnly.Length >= 10 && digitsOnly.Length <= 15;
+        if (phone.StartsWith("+"))
+            phone = phone.Substring(1);
+
+        if (!phone.All(char.IsDigit))
+            return false;
+
+ 
+        return phone.Length >= 10 && phone.Length <= 15;
     }
 }

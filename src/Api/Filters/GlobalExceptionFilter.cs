@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -20,6 +21,18 @@ public class GlobalExceptionFilter : IExceptionFilter
 
         context.Result = exception switch
         {
+            ValidationException validationException => new ObjectResult(new
+            {
+                message = "Erro de validação.",
+                errors = validationException.Errors.Select(e => new
+                {
+                    property = e.PropertyName,
+                    message = e.ErrorMessage
+                })
+            })
+            {
+                StatusCode = StatusCodes.Status400BadRequest
+            },
             UnauthorizedAccessException => new ObjectResult(new { message = exception.Message })
             {
                 StatusCode = StatusCodes.Status401Unauthorized

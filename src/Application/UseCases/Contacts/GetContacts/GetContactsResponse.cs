@@ -1,6 +1,8 @@
+using Application.Common.Models;
+
 namespace Application.UseCases.Contacts.GetContacts;
 
-public record GetContactsResponse(IEnumerable<ContactDto> Contacts);
+public record GetContactsResponse(PagedResult<ContactDto> Result);
 
 public record ContactDto(
     Guid Id,

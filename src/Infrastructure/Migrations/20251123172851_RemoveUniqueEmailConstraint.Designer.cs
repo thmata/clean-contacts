@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251123015039_SeedContactsForAdminUser")]
-    partial class SeedContactsForAdminUser
+    [Migration("20251123172851_RemoveUniqueEmailConstraint")]
+    partial class RemoveUniqueEmailConstraint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,8 +49,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)")
                         .HasColumnName("phone");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -69,10 +69,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserId")
                         .HasDatabaseName("ix_contacts_user_id");
 
-                    b.HasIndex("UserId", "Email")
-                        .IsUnique()
-                        .HasDatabaseName("ix_contacts_user_id_email");
-
                     b.ToTable("contacts", (string)null);
 
                     b.HasData(
@@ -82,7 +78,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 1, 0, 0, 0, DateTimeKind.Utc),
                             Email = "joao.silva@email.com",
                             Name = "João Silva",
-                            Phone = "+5511999999999",
+                            Phone = "11999999999",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -91,7 +87,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 2, 0, 0, 0, DateTimeKind.Utc),
                             Email = "maria.oliveira@email.com",
                             Name = "Maria Oliveira",
-                            Phone = "+5511988888888",
+                            Phone = "11988888888",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -100,7 +96,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 3, 0, 0, 0, DateTimeKind.Utc),
                             Email = "carlos.souza@email.com",
                             Name = "Carlos Souza",
-                            Phone = "+5511977777777",
+                            Phone = "11977777777",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -109,7 +105,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 4, 0, 0, 0, DateTimeKind.Utc),
                             Email = "ana.santos@email.com",
                             Name = "Ana Santos",
-                            Phone = "+5511966666666",
+                            Phone = "11966666666",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -118,7 +114,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 5, 0, 0, 0, DateTimeKind.Utc),
                             Email = "pedro.costa@email.com",
                             Name = "Pedro Costa",
-                            Phone = "+5511955555555",
+                            Phone = "11955555555",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -127,7 +123,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 6, 0, 0, 0, DateTimeKind.Utc),
                             Email = "juliana.lima@email.com",
                             Name = "Juliana Lima",
-                            Phone = "+5511944444444",
+                            Phone = "11944444444",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -136,7 +132,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 7, 0, 0, 0, DateTimeKind.Utc),
                             Email = "roberto.alves@email.com",
                             Name = "Roberto Alves",
-                            Phone = "+5511933333333",
+                            Phone = "11933333333",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         },
                         new
@@ -145,7 +141,7 @@ namespace Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 11, 21, 8, 0, 0, 0, DateTimeKind.Utc),
                             Email = "fernanda.rocha@email.com",
                             Name = "Fernanda Rocha",
-                            Phone = "+5511922222222",
+                            Phone = "11922222222",
                             UserId = new Guid("00000000-0000-0000-0000-000000000001")
                         });
                 });

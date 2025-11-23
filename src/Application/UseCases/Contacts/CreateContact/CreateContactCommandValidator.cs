@@ -18,23 +18,29 @@ public class CreateContactCommandValidator : AbstractValidator<CreateContactComm
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Telefone é obrigatório.")
-            .Must(BeValidPhone).WithMessage("Telefone deve ter entre 10 e 15 dígitos.")
-            .Matches(@"^\+?\d{10,15}$")
-            .WithMessage("Telefone inválido. Deve conter apenas números e opcionalmente o prefixo internacional (+).");
+            .Must(BeValidBrazilianPhone).WithMessage("Telefone inválido. Deve conter apenas números (10 ou 11 dígitos com DDD).")
+            .Matches(@"^\d{10,11}$").WithMessage("Telefone deve conter apenas números (DDD + número).");
     }
 
-    private static bool BeValidPhone(string phone)
+    private static bool BeValidBrazilianPhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
             return false;
 
-        if (phone.StartsWith("+"))
-            phone = phone.Substring(1);
+        var digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
 
-        if (!phone.All(char.IsDigit))
+        if (digitsOnly.Length < 10 || digitsOnly.Length > 11)
             return false;
 
- 
-        return phone.Length >= 10 && phone.Length <= 15;
+        if (digitsOnly.Length >= 2)
+        {
+            if (!int.TryParse(digitsOnly.Substring(0, 2), out var ddd))
+                return false;
+
+            if (ddd < 11 || ddd > 99)
+                return false;
+        }
+
+        return true;
     }
 }

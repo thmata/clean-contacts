@@ -87,7 +87,14 @@ public class Contact : BaseEntity
 
         var digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
         
-        if (digitsOnly.Length < 10 || digitsOnly.Length > 15)
-            throw new ArgumentException("Telefone deve ter entre 10 e 15 dígitos.", nameof(phone));
+        if (digitsOnly.Length < 10 || digitsOnly.Length > 11)
+            throw new ArgumentException("Telefone deve ter 10 ou 11 dígitos (DDD + número).", nameof(phone));
+
+        if (digitsOnly.Length >= 2)
+        {
+            var ddd = int.Parse(digitsOnly.Substring(0, 2));
+            if (ddd < 11 || ddd > 99)
+                throw new ArgumentException("DDD inválido. Deve estar entre 11 e 99.", nameof(phone));
+        }
     }
 }

@@ -21,15 +21,29 @@ public class UpdateContactCommandValidator : AbstractValidator<UpdateContactComm
 
         RuleFor(x => x.Phone)
             .NotEmpty().WithMessage("Telefone é obrigatório.")
-            .Must(BeValidPhone).WithMessage("Telefone deve ter entre 10 e 15 dígitos.");
+            .Must(BeValidBrazilianPhone).WithMessage("Telefone inválido. Deve conter apenas números (10 ou 11 dígitos com DDD).")
+            .Matches(@"^\d{10,11}$").WithMessage("Telefone deve conter apenas números (DDD + número).");
     }
 
-    private static bool BeValidPhone(string phone)
+    private static bool BeValidBrazilianPhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
             return false;
 
         var digitsOnly = new string(phone.Where(char.IsDigit).ToArray());
-        return digitsOnly.Length >= 10 && digitsOnly.Length <= 15;
+
+        if (digitsOnly.Length < 10 || digitsOnly.Length > 11)
+            return false;
+
+        if (digitsOnly.Length >= 2)
+        {
+            if (!int.TryParse(digitsOnly.Substring(0, 2), out var ddd))
+                return false;
+
+            if (ddd < 11 || ddd > 99)
+                return false;
+        }
+
+        return true;
     }
 }

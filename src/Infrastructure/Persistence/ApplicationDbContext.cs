@@ -20,15 +20,102 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
+        var adminId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+        var baseDate = new DateTime(2025, 11, 21, 0, 0, 0, DateTimeKind.Utc);
+
         // Seed do usuário padrão: admin/admin123
         modelBuilder.Entity<User>().HasData(
             new 
             { 
-                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                Id = adminId,
                 Username = "admin",
                 PasswordHash = "$2a$11$tZnbYY2mUoM.hIUhLJ2N3u.rmcTCtityrUfAQZ5TH0u5xjfxTQsBm",
-                CreatedAt = new DateTime(2025, 11, 21, 0, 0, 0, DateTimeKind.Utc),
-                UpdatedAt = new DateTime(2025, 11, 21, 0, 0, 0, DateTimeKind.Utc)
+                CreatedAt = baseDate,
+                UpdatedAt = (DateTime?)baseDate
+            }
+        );
+
+        // Seed de contatos vinculados ao usuário admin
+        modelBuilder.Entity<Contact>().HasData(
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000001"),
+                UserId = adminId,
+                Name = "João Silva",
+                Email = "joao.silva@email.com",
+                Phone = "+5511999999999",
+                CreatedAt = baseDate.AddHours(1),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000002"),
+                UserId = adminId,
+                Name = "Maria Oliveira",
+                Email = "maria.oliveira@email.com",
+                Phone = "+5511988888888",
+                CreatedAt = baseDate.AddHours(2),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000003"),
+                UserId = adminId,
+                Name = "Carlos Souza",
+                Email = "carlos.souza@email.com",
+                Phone = "+5511977777777",
+                CreatedAt = baseDate.AddHours(3),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000004"),
+                UserId = adminId,
+                Name = "Ana Santos",
+                Email = "ana.santos@email.com",
+                Phone = "+5511966666666",
+                CreatedAt = baseDate.AddHours(4),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000005"),
+                UserId = adminId,
+                Name = "Pedro Costa",
+                Email = "pedro.costa@email.com",
+                Phone = "+5511955555555",
+                CreatedAt = baseDate.AddHours(5),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000006"),
+                UserId = adminId,
+                Name = "Juliana Lima",
+                Email = "juliana.lima@email.com",
+                Phone = "+5511944444444",
+                CreatedAt = baseDate.AddHours(6),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000007"),
+                UserId = adminId,
+                Name = "Roberto Alves",
+                Email = "roberto.alves@email.com",
+                Phone = "+5511933333333",
+                CreatedAt = baseDate.AddHours(7),
+                UpdatedAt = (DateTime?)null
+            },
+            new
+            {
+                Id = Guid.Parse("10000000-0000-0000-0000-000000000008"),
+                UserId = adminId,
+                Name = "Fernanda Rocha",
+                Email = "fernanda.rocha@email.com",
+                Phone = "+5511922222222",
+                CreatedAt = baseDate.AddHours(8),
+                UpdatedAt = (DateTime?)null
             }
         );
     }

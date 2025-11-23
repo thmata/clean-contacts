@@ -1,3 +1,4 @@
+using Application.Common.Models;
 using Application.Interfaces;
 using MediatR;
 
@@ -14,7 +15,11 @@ public class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, GetCont
 
     public async Task<GetContactsResponse> Handle(GetContactsQuery request, CancellationToken cancellationToken)
     {
-        var contacts = await _contactRepository.GetByUserIdAsync(request.UserId, cancellationToken);
+        var (contacts, totalCount) = await _contactRepository.GetByUserIdPagedAsync(
+            request.UserId, 
+            request.Page, 
+            request.PageSize, 
+            cancellationToken);
 
         var contactDtos = contacts.Select(c => new ContactDto(
             c.Id,
@@ -24,6 +29,12 @@ public class GetContactsQueryHandler : IRequestHandler<GetContactsQuery, GetCont
             c.CreatedAt,
             c.UpdatedAt)).ToList();
 
-        return new GetContactsResponse(contactDtos);
+        var pagedResult = new PagedResult<ContactDto>(
+            contactDtos,
+            request.Page,
+            request.PageSize,
+            totalCount);
+
+        return new GetContactsResponse(pagedResult);
     }
 }

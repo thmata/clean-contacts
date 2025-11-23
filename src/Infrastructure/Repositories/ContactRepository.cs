@@ -28,6 +28,25 @@ public class ContactRepository : IContactRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<(IEnumerable<Contact> Items, int TotalCount)> GetByUserIdPagedAsync(
+        Guid userId, 
+        int page, 
+        int pageSize, 
+        CancellationToken cancellationToken = default)
+    {
+        var query = _context.Contacts.Where(c => c.UserId == userId);
+        
+        var totalCount = await query.CountAsync(cancellationToken);
+        
+        var items = await query
+            .OrderByDescending(c => c.CreatedAt)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+
+        return (items, totalCount);
+    }
+
     public async Task<Contact> AddAsync(Contact contact, CancellationToken cancellationToken = default)
     {
         await _context.Contacts.AddAsync(contact, cancellationToken);

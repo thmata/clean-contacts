@@ -300,3 +300,6 @@ CreatedAt: DateTime
 - **Isolamento de dados**: Cada usuário vê apenas seus próprios contatos.
 - **Auditoria**: O sistema registra todas as alterações em contatos (em desenvolvimento).
 
+## Front-end
+Este projeto de API alimenta o Front [Clean Contacts Web](https://github.com/thmata/clean-contacts-web). Siga as instruções do repositório do Front para configurá-la e executá-la localmente.
+

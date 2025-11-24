@@ -1,0 +1,56 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:17-alpine
+    container_name: clean-contacts-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: clean_contacts_db
+      POSTGRES_USER: admin_user
+      POSTGRES_PASSWORD: S3cur3Adm!n#2025
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - clean-contacts-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin_user -d clean_contacts_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Clean Contacts API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: clean-contacts-api
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=clean_contacts_db;Username=admin_user;Password=S3cur3Adm!n#2025;Port=5432
+      - JwtSettings__SecretKey=CleanContacts-SecretKey-SuperSecure-2025-MinimumOf32Characters!
+      - JwtSettings__Issuer=CleanContactsAPI
+      - JwtSettings__Audience=CleanContactsClient
+      - JwtSettings__ExpiryMinutes=60
+      - Cors__AllowedOrigins__0=http://localhost:3000
+      - Cors__AllowedOrigins__1=http://localhost:5173
+      - Cors__AllowedOrigins__2=http://localhost:5174
+    ports:
+      - "5000:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - clean-contacts-network
+
+networks:
+  clean-contacts-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

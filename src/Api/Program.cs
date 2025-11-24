@@ -2,6 +2,8 @@ using Api.Configuration;
 using Api.Filters;
 using Application;
 using Infrastructure;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,10 +20,22 @@ builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerConfiguration();
-}
+ using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "An error occurred while migrating the database.");
+        }
+    }
+
+app.UseSwaggerConfiguration();
 
 app.UseHttpsRedirection();
 

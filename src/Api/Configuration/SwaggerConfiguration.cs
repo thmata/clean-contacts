@@ -31,7 +31,7 @@ public static class SwaggerConfiguration
                 Scheme = JwtBearerDefaults.AuthenticationScheme.ToLower(),
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description = "Insira o token JWT no formato: Bearer {seu token}"
+                Description = "Insira o token JWT no formato: {seu token}"
             };
 
             options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, securityScheme);

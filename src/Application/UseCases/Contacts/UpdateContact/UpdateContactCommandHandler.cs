@@ -1,4 +1,6 @@
+using Application.Common.IntegrationEvents;
 using Application.Interfaces;
+using MassTransit;
 using MediatR;
 
 namespace Application.UseCases.Contacts.UpdateContact;
@@ -6,10 +8,14 @@ namespace Application.UseCases.Contacts.UpdateContact;
 public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand, UpdateContactResponse>
 {
     private readonly IContactRepository _contactRepository;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public UpdateContactCommandHandler(IContactRepository contactRepository)
+    public UpdateContactCommandHandler(
+        IContactRepository contactRepository,
+        IPublishEndpoint publishEndpoint)
     {
         _contactRepository = contactRepository;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<UpdateContactResponse> Handle(UpdateContactCommand request, CancellationToken cancellationToken)
@@ -17,14 +23,23 @@ public class UpdateContactCommandHandler : IRequestHandler<UpdateContactCommand,
         var contact = await _contactRepository.GetByIdAsync(request.Id, cancellationToken);
 
         if (contact is null)
-            throw new KeyNotFoundException($"Contato com Id {request.Id} não encontrado.");
+            throw new KeyNotFoundException($"Contato com Id {request.Id} nï¿½o encontrado.");
 
         if (contact.UserId != request.UserId)
-            throw new UnauthorizedAccessException("Você não tem permissão para atualizar este contato.");
+            throw new UnauthorizedAccessException("Vocï¿½ nï¿½o tem permissï¿½o para atualizar este contato.");
 
         contact.Update(request.Name, request.Email, request.Phone);
 
         await _contactRepository.UpdateAsync(contact, cancellationToken);
+
+        await _publishEndpoint.Publish(new ContactUpdatedEvent(
+            contact.Id,
+            contact.UserId,
+            contact.Name,
+            contact.Email,
+            contact.Phone,
+            DateTime.UtcNow
+        ), cancellationToken);
 
         return new UpdateContactResponse(
             contact.Id,

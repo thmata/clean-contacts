@@ -12,7 +12,7 @@ public class GlobalExceptionFilter : IExceptionFilter
     {
         _logger = logger;
     }
-
+    
     public void OnException(ExceptionContext context)
     {
         var exception = context.Exception;
@@ -23,7 +23,7 @@ public class GlobalExceptionFilter : IExceptionFilter
         {
             ValidationException validationException => new ObjectResult(new
             {
-                message = "Erro de validação.",
+                message = "Erro de validaÃ§Ã£o.",
                 errors = validationException.Errors.Select(e => new
                 {
                     property = e.PropertyName,
